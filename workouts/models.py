@@ -38,3 +38,21 @@ class Exercise(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class WorkoutSession(models.Model):
+    user = models.ForeignKey(
+        "User",
+        on_delete=models.CASCADE,
+        related_name="workout_sessions"
+    )
+    workout_plan = models.ForeignKey(
+        WorkoutPlan,
+        on_delete=models.CASCADE,
+        related_name="sessions"
+    )
+    date = models.DateField(auto_now_add=True)
+    completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.workout_plan.name} ({self.date})"
