@@ -56,3 +56,29 @@ class WorkoutSession(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.workout_plan.name} ({self.date})"
+
+
+class ProgressRecord(models.Model):
+    user = models.ForeignKey(
+        "User",
+        on_delete=models.CASCADE,
+        related_name="progress_records"
+    )
+    exercise = models.ForeignKey(
+        Exercise,
+        on_delete=models.CASCADE,
+        related_name="progress_records"
+    )
+    workout_session = models.ForeignKey(
+        WorkoutSession,
+        on_delete=models.CASCADE,
+        related_name="progress_records"
+    )
+    date = models.DateField(auto_now_add=True)
+    weight_used = models.FloatField(null=True, blank=True)
+    repetitions = models.PositiveIntegerField(null=True, blank=True)
+    duration_minutes = models.PositiveIntegerField(null=True, blank=True)
+    notes = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.exercise.name} ({self.date})"
