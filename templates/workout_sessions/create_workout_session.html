@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Create Workout Session{% endblock %}
+
+{% block content %}
+<h2>Create Workout Session</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Create Session</button>
+</form>
+
+<a href="{% url 'workout_session_list' %}" class="btn btn-secondary mt-3">Back to Sessions</a>
+{% endblock %}

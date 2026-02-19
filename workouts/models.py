@@ -53,6 +53,7 @@ class WorkoutSession(models.Model):
     )
     date = models.DateField(auto_now_add=True)
     completed = models.BooleanField(default=False)
+    notes = models.TextField(blank=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.workout_plan.name} ({self.date})"
