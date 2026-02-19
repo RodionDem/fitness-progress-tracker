@@ -4,11 +4,22 @@
 
 {% block content %}
 <h2>My Workout Plans</h2>
-<a class="btn btn-primary mb-3" href="{% url 'create_workout_plan' %}">Add New Plan</a>
+
+<a class="btn btn-primary mb-3"
+   href="{% url 'create_workout_plan' %}">
+   Add New Plan
+</a>
+
 <ul class="list-group">
   {% for plan in plans %}
     <li class="list-group-item">
-      <strong>{{ plan.name }}</strong>: {{ plan.description }}
+      <strong>{{ plan.name }}</strong>
+      <p>{{ plan.description }}</p>
+
+      <a class="btn btn-sm btn-outline-primary mt-2"
+         href="{% url 'exercise_list' plan.id %}">
+         View Exercises
+      </a>
     </li>
   {% empty %}
     <li class="list-group-item">No plans yet.</li>

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import WorkoutPlan, Exercise, ProgressRecord, WorkoutSession
 from .forms import WorkoutPlanForm
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 @login_required
 def create_workout_plan(request):
@@ -36,3 +37,23 @@ def dashboard(request):
         'progress_count': progress_count,
     }
     return render(request, 'dashboard/dashboard.html', context)
+
+
+@login_required
+def exercise_list(request, plan_id):
+    plan = get_object_or_404(
+        WorkoutPlan,
+        id=plan_id,
+        created_by=request.user
+    )
+
+    exercises = plan.exercises.all()
+
+    return render(
+        request,
+        "exercises/exercise_list.html",
+        {
+            "plan": plan,
+            "exercises": exercises
+        }
+    )

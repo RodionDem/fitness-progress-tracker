@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Exercises{% endblock %}
+
+{% block content %}
+<h2>Exercises for "{{ plan.name }}"</h2>
+
+<ul class="list-group">
+  {% for exercise in exercises %}
+    <li class="list-group-item">
+      <strong>{{ exercise.name }}</strong>
+      {% if exercise.description %}
+        <p>{{ exercise.description }}</p>
+      {% endif %}
+    </li>
+  {% empty %}
+    <li class="list-group-item">No exercises yet.</li>
+  {% endfor %}
+</ul>
+
+<a class="btn btn-secondary mt-3"
+   href="{% url 'workout_plan_list' %}">
+   Back to Plans
+</a>
+{% endblock %}
