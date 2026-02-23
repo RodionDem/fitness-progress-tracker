@@ -3,43 +3,46 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<h2>Dashboard</h2>
+<h1>Dashboard</h1>
+
 <div class="row">
-  <div class="col-md-3 mb-3">
-    <div class="card text-center bg-primary text-white">
-      <div class="card-body">
-        <h5 class="card-title">Workout Plans</h5>
-        <p class="card-text">{{ workout_plans_count }} plans</p>
-        <a href="{% url 'workout_plan_list' %}" class="btn btn-light btn-sm">View Plans</a>
-      </div>
+    <div class="col">
+        <div class="card p-3 mb-3">
+            <h4>Workout Plans</h4>
+            <p>{{ workout_plans_count }}</p>
+            <a href="{% url 'workout_plan_list' %}" class="btn btn-primary btn-sm">View Plans</a>
+        </div>
     </div>
-  </div>
-  <div class="col-md-3 mb-3">
-    <div class="card text-center bg-success text-white">
-      <div class="card-body">
-        <h5 class="card-title">Exercises</h5>
-        <p class="card-text">{{ exercises_count }} exercises</p>
-        <a href="#" class="btn btn-light btn-sm">View Exercises</a>
-      </div>
+
+    <div class="col">
+        <div class="card p-3 mb-3">
+            <h4>Exercises</h4>
+            <p>{{ exercises_count }}</p>
+        </div>
     </div>
-  </div>
-  <div class="col-md-3 mb-3">
-    <div class="card text-center bg-warning text-dark">
-      <div class="card-body">
-        <h5 class="card-title">Sessions</h5>
-        <p class="card-text">{{ sessions_count }} sessions</p>
-        <a href="#" class="btn btn-dark btn-sm">View Sessions</a>
-      </div>
+
+    <div class="col">
+        <div class="card p-3 mb-3">
+            <h4>Sessions</h4>
+            <p>{{ sessions_count }}</p>
+            <a href="{% url 'workout_session_list' %}" class="btn btn-primary btn-sm">View Sessions</a>
+        </div>
     </div>
-  </div>
-  <div class="col-md-3 mb-3">
-    <div class="card text-center bg-info text-white">
-      <div class="card-body">
-        <h5 class="card-title">Progress</h5>
-        <p class="card-text">{{ progress_count }} records</p>
-        <a href="#" class="btn btn-light btn-sm">View Progress</a>
-      </div>
+
+    <div class="col">
+        <div class="card p-3 mb-3">
+            <h4>Progress Records</h4>
+            <p>{{ progress_count }}</p>
+        </div>
     </div>
-  </div>
 </div>
+
+<a href="{% url 'create_workout_plan' %}" class="btn btn-success mt-3">
+    Add New Workout Plan
+</a>
+
+<a href="{% url 'session-create' %}" class="btn btn-success mt-3">
+    Add New Workout Session
+</a>
+
 {% endblock %}

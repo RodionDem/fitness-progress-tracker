@@ -5,24 +5,31 @@
 {% block content %}
 <h2>My Workout Plans</h2>
 
-<a class="btn btn-primary mb-3"
-   href="{% url 'create_workout_plan' %}">
-   Add New Plan
+<a class="btn btn-primary mb-3" href="{% url 'create_workout_plan' %}">
+    Add New Plan
 </a>
 
 <ul class="list-group">
-  {% for plan in plans %}
-    <li class="list-group-item">
-      <strong>{{ plan.name }}</strong>
-      <p>{{ plan.description }}</p>
-
-      <a class="btn btn-sm btn-outline-primary mt-2"
-         href="{% url 'exercise_list' plan.id %}">
-         View Exercises
-      </a>
+    {% for plan in plans %}
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div>
+            <strong>{{ plan.name }}</strong>
+            <p>{{ plan.description }}</p>
+        </div>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Plan actions">
+            <a class="btn btn-outline-info" href="{% url 'exercise_list' plan.id %}">
+                View Exercises
+            </a>
+            <a class="btn btn-outline-warning" href="{% url 'workout_plan_update' plan.id %}">
+                Edit
+            </a>
+            <a class="btn btn-outline-danger" href="{% url 'workout_plan_delete' plan.id %}">
+                Delete
+            </a>
+        </div>
     </li>
-  {% empty %}
+    {% empty %}
     <li class="list-group-item">No plans yet.</li>
-  {% endfor %}
+    {% endfor %}
 </ul>
 {% endblock %}

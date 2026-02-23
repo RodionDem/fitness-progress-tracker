@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>
+    {% if view.object %}
+        Edit Workout Plan
+    {% else %}
+        Create Workout Plan
+    {% endif %}
+</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+<a href="{% url 'workout_plan_list' %}">Back to My Workout Plans</a>
+{% endblock %}
