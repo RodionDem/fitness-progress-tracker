@@ -1,4 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+
 from .models import WorkoutPlan, Exercise, ProgressRecord, WorkoutSession
 from .forms import WorkoutPlanForm, WorkoutSessionForm
 from django.contrib.auth.decorators import login_required
@@ -104,4 +107,13 @@ def workout_session_detail(request, session_id):
         "workout_sessions/workout_session_detail.html",
         context
     )
+
+
+class WorkoutSessionCreateView(CreateView):
+    model = WorkoutSession
+    fields = ["date", "workout_plan", "notes"]
+    template_name = "workouts/workoutsession_form.html"
+    success_url = reverse_lazy("workouts:session-list")
+
+
 
