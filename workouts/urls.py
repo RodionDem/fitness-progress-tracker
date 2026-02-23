@@ -10,4 +10,6 @@ urlpatterns = [
     path('sessions/', views.workout_session_list, name='workout_session_list'),
     path('sessions/create/', views.create_workout_session, name='create_workout_session'),
     path('sessions/<int:session_id>/toggle/', views.toggle_session_completed, name='toggle_session_completed'),
+    path("sessions/<int:session_id>/", views.workout_session_detail, name="workout_session_detail",),
+
 ]

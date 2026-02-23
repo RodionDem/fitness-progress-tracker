@@ -5,27 +5,46 @@
 {% block content %}
 <h2>My Workout Sessions</h2>
 
-<a class="btn btn-primary mb-3" href="{% url 'create_workout_session' %}">Add New Session</a>
+<a class="btn btn-primary mb-3"
+   href="{% url 'create_workout_session' %}">
+   Add New Session
+</a>
 
 <ul class="list-group">
     {% for session in sessions %}
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <div>
-                <strong>{{ session.workout_plan.name }}</strong> — {{ session.date }}
+                <strong>{{ session.workout_plan.name }}</strong>
+                — {{ session.date }}
+
                 {% if session.completed %}
-                    <span class="badge bg-success ms-2">Completed</span>
+                    <span class="badge bg-success ms-2">
+                        Completed
+                    </span>
                 {% else %}
-                    <span class="badge bg-warning text-dark ms-2">Not Completed</span>
+                    <span class="badge bg-warning text-dark ms-2">
+                        Not Completed
+                    </span>
                 {% endif %}
             </div>
-            <div>
-                <a href="{% url 'toggle_session_completed' session.id %}" class="btn btn-sm btn-outline-secondary">
-                    Toggle Completed
+
+            <div class="d-flex gap-2">
+                <!-- NEW: View button -->
+                <a href="{% url 'workout_session_detail' session.id %}"
+                   class="btn btn-sm btn-outline-primary">
+                    View
+                </a>
+
+                <a href="{% url 'toggle_session_completed' session.id %}"
+                   class="btn btn-sm btn-outline-secondary">
+                    Toggle
                 </a>
             </div>
         </li>
     {% empty %}
-        <li class="list-group-item">No workout sessions yet.</li>
+        <li class="list-group-item">
+            No workout sessions yet.
+        </li>
     {% endfor %}
 </ul>
 {% endblock %}

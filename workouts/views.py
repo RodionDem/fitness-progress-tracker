@@ -80,3 +80,28 @@ def toggle_session_completed(request, session_id):
     session.save()
     messages.success(request, f"Session marked as {'completed' if session.completed else 'not completed'}.")
     return redirect('workout_session_list')
+
+
+@login_required
+def workout_session_detail(request, session_id):
+    session = get_object_or_404(
+        WorkoutSession,
+        id=session_id,
+        user=request.user
+    )
+
+    exercises = session.workout_plan.exercises.all()
+    progress_records = session.progress_records.select_related("exercise")
+
+    context = {
+        "session": session,
+        "exercises": exercises,
+        "progress_records": progress_records,
+    }
+
+    return render(
+        request,
+        "workout_sessions/workout_session_detail.html",
+        context
+    )
+
