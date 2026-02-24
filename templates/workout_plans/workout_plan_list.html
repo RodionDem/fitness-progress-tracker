@@ -5,31 +5,108 @@
 {% block content %}
 <h2>My Workout Plans</h2>
 
-<a class="btn btn-primary mb-3" href="{% url 'create_workout_plan' %}">
-    Add New Plan
+<form method="get" class="mb-3">
+  <div class="input-group">
+    <label>
+      <input type="text"
+             name="search"
+             class="form-control"
+             placeholder="Search plans..."
+             value="{{ search_query }}">
+    </label>
+    <button type="submit" class="btn btn-outline-secondary">Search</button>
+  </div>
+</form>
+
+<a class="btn btn-primary mb-3"
+   href="{% url 'create_workout_plan' %}">
+   Add New Plan
 </a>
 
 <ul class="list-group">
-    {% for plan in plans %}
-    <li class="list-group-item d-flex justify-content-between align-items-start">
-        <div>
-            <strong>{{ plan.name }}</strong>
-            <p>{{ plan.description }}</p>
-        </div>
-        <div class="btn-group btn-group-sm" role="group" aria-label="Plan actions">
-            <a class="btn btn-outline-info" href="{% url 'exercise_list' plan.id %}">
-                View Exercises
-            </a>
-            <a class="btn btn-outline-warning" href="{% url 'workout_plan_update' plan.id %}">
-                Edit
-            </a>
-            <a class="btn btn-outline-danger" href="{% url 'workout_plan_delete' plan.id %}">
-                Delete
-            </a>
-        </div>
+  {% for plan in page_obj %}
+    <li class="list-group-item">
+      <strong>{{ plan.name }}</strong>
+      <p>{{ plan.description }}</p>
+
+      <div class="mt-2">
+        <a class="btn btn-sm btn-outline-primary"
+           href="{% url 'exercise_list' plan.id %}">
+           View Exercises
+        </a>
+
+        <a class="btn btn-sm btn-outline-warning"
+           href="{% url 'workout_plan_update' plan.id %}">
+           Edit
+        </a>
+
+        <a class="btn btn-sm btn-outline-danger"
+           href="{% url 'workout_plan_delete' plan.id %}">
+           Delete
+        </a>
+      </div>
     </li>
-    {% empty %}
-    <li class="list-group-item">No plans yet.</li>
-    {% endfor %}
+  {% empty %}
+    <li class="list-group-item">No plans found.</li>
+  {% endfor %}
 </ul>
+
+<!-- Pagination -->
+{% if page_obj.paginator.num_pages > 1 %}
+<nav class="mt-4">
+  <ul class="pagination justify-content-center">
+
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link"
+           href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">
+          ←
+        </a>
+      </li>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+
+      {% if num == page_obj.number %}
+        <li class="page-item active">
+          <span class="page-link">{{ num }}</span>
+        </li>
+
+      {% elif num >= page_obj.number|add:'-1' and num <= page_obj.number|add:'1' %}
+        <li class="page-item">
+          <a class="page-link"
+             href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}">
+             {{ num }}
+          </a>
+        </li>
+
+      {% elif num == 1 or num == page_obj.paginator.num_pages %}
+        <li class="page-item">
+          <a class="page-link"
+             href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}">
+             {{ num }}
+          </a>
+        </li>
+
+      {% elif num == page_obj.number|add:'-2' or num == page_obj.number|add:'2' %}
+        <li class="page-item disabled">
+          <span class="page-link">...</span>
+        </li>
+
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link"
+           href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">
+          →
+        </a>
+      </li>
+    {% endif %}
+
+  </ul>
+</nav>
+{% endif %}
+
 {% endblock %}
