@@ -31,18 +31,22 @@ def dashboard(request):
 
 @login_required
 def workout_plan_list(request):
-    query = request.GET.get("q")
-    plans = WorkoutPlan.objects.filter(created_by=request.user)
-    if query:
-        plans = plans.filter(name__icontains=query)
+    search_query = request.GET.get("search", "")
+    plans = WorkoutPlan.objects.filter(
+        created_by=request.user
+    )
+    if search_query:
+        plans = plans.filter(
+            name__icontains=search_query
+        )
     plans = plans.order_by("-id")
+
     paginator = Paginator(plans, 2)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-
     context = {
         "page_obj": page_obj,
-        "query": query,
+        "search_query": search_query,
     }
     return render(
         request,
@@ -61,12 +65,11 @@ def create_workout_plan(request):
             plan.save()
             messages.success(
                 request,
-                "Workout plan created successfully!"
+                "Workout plan created successfully!",
             )
             return redirect("workout_plan_list")
     else:
         form = WorkoutPlanForm()
-
     return render(
         request,
         "workout_plans/create_workout_plan.html",
@@ -82,7 +85,6 @@ def exercise_list(request, plan_id):
         created_by=request.user,
     )
     exercises = plan.exercises.all()
-
     return render(
         request,
         "exercises/exercise_list.html",
@@ -92,22 +94,21 @@ def exercise_list(request, plan_id):
 
 @login_required
 def workout_session_list(request):
-    query = request.GET.get("q")
-    sessions = WorkoutSession.objects.filter(user=request.user)
-
-    if query:
+    search_query = request.GET.get("search", "")
+    sessions = WorkoutSession.objects.filter(
+        user=request.user
+    )
+    if search_query:
         sessions = sessions.filter(
-            workout_plan__name__icontains=query
+            workout_plan__name__icontains=search_query
         )
-
     sessions = sessions.order_by("-date")
     paginator = Paginator(sessions, 2)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-
     context = {
         "page_obj": page_obj,
-        "query": query,
+        "search_query": search_query,
     }
     return render(
         request,
@@ -124,8 +125,9 @@ def workout_session_detail(request, pk):
         user=request.user,
     )
     exercises = session.workout_plan.exercises.all()
-    progress_records = session.progress_records.select_related("exercise")
-
+    progress_records = session.progress_records.select_related(
+        "exercise"
+    )
     context = {
         "session": session,
         "exercises": exercises,
@@ -151,7 +153,7 @@ def toggle_session_completed(request, pk):
     messages.success(
         request,
         f"Session marked as "
-        f"{'completed' if session.completed else 'not completed'}."
+        f"{'completed' if session.completed else 'not completed'}.",
     )
     return redirect("workout_session_list")
 
