@@ -7,13 +7,11 @@
 
 <form method="get" class="mb-3">
   <div class="input-group">
-    <label>
-      <input type="text"
-             name="search"
-             class="form-control"
-             placeholder="Search plans..."
-             value="{{ search_query }}">
-    </label>
+    <input type="text"
+           name="search"
+           class="form-control"
+           placeholder="Search plans..."
+           value="{{ search_query }}">
     <button type="submit" class="btn btn-outline-secondary">Search</button>
   </div>
 </form>
@@ -27,21 +25,21 @@
   {% for plan in page_obj %}
     <li class="list-group-item">
       <strong>{{ plan.name }}</strong>
-      <p>{{ plan.description }}</p>
+      <p>{{ plan.description|default:"-" }}</p>
 
       <div class="mt-2">
         <a class="btn btn-sm btn-outline-primary"
-           href="{% url 'exercise_list' plan.id %}">
+           href="{% url 'exercise_list' plan_id=plan.id %}">
            View Exercises
         </a>
 
         <a class="btn btn-sm btn-outline-warning"
-           href="{% url 'workout_plan_update' plan.id %}">
+           href="{% url 'workout_plan_update' pk=plan.id %}">
            Edit
         </a>
 
         <a class="btn btn-sm btn-outline-danger"
-           href="{% url 'workout_plan_delete' plan.id %}">
+           href="{% url 'workout_plan_delete' pk=plan.id %}">
            Delete
         </a>
       </div>
@@ -63,6 +61,8 @@
           ←
         </a>
       </li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">←</span></li>
     {% endif %}
 
     {% for num in page_obj.paginator.page_range %}
@@ -103,6 +103,8 @@
           →
         </a>
       </li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">→</span></li>
     {% endif %}
 
   </ul>

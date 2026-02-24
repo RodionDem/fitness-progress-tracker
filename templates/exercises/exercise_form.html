@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{% if object %}Edit Exercise{% else %}Add Exercise{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3>{% if object %}Edit Exercise{% else %}Add Exercise{% endif %}</h3>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">{% if object %}Update{% else %}Create{% endif %}</button>
+            {% if plan %}
+                <a href="{% url 'exercise_list' plan_id=plan.id %}" class="btn btn-secondary">Cancel</a>
+            {% else %}
+                <a href="{% url 'workout_plan_list' %}" class="btn btn-secondary">Cancel</a>
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
@@ -18,6 +17,11 @@
         <div class="card p-3 mb-3">
             <h4>Exercises</h4>
             <p>{{ exercises_count }}</p>
+            {% if first_plan %}
+                <a href="{% url 'exercise_list' plan_id=first_plan.id %}" class="btn btn-primary btn-sm">View Exercises</a>
+            {% else %}
+                <span class="text-muted">No plans yet</span>
+            {% endif %}
         </div>
     </div>
 
@@ -37,12 +41,13 @@
     </div>
 </div>
 
-<a href="{% url 'create_workout_plan' %}" class="btn btn-success mt-3">
-    Add New Workout Plan
-</a>
+<a href="{% url 'create_workout_plan' %}" class="btn btn-success mt-3">Add New Workout Plan</a>
 
-<a href="{% url 'session-create' %}" class="btn btn-success mt-3">
-    Add New Workout Session
-</a>
+{% if first_plan %}
+    <a href="{% url 'exercise_create' plan_id=first_plan.id %}" class="btn btn-success mt-3">Add New Exercise</a>
+{% else %}
+    <button class="btn btn-success mt-3" disabled>Add New Exercise</button>
+{% endif %}
 
+<a href="{% url 'workout_session_create' %}" class="btn btn-success mt-3">Add New Workout Session</a>
 {% endblock %}

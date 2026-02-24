@@ -20,15 +20,24 @@
           <a class="nav-link" href="{% url 'workout_plan_list' %}">Workout Plans</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Exercises</a>
+          {% if first_plan %}
+            <a class="nav-link" href="{% url 'exercise_list' plan_id=first_plan.id %}">Exercises</a>
+          {% else %}
+            <span class="nav-link text-muted">Exercises</span>
+          {% endif %}
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'workout_session_list' %}">Sessions</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Progress</a>
+          {% if progress_page_exists %}
+            <a class="nav-link" href="{% url 'progress_list' %}">Progress</a>
+          {% else %}
+            <span class="nav-link text-muted">Progress</span>
+          {% endif %}
         </li>
       </ul>
+
       <ul class="navbar-nav ms-auto">
         {% if user.is_authenticated %}
         <li class="nav-item">
@@ -37,8 +46,7 @@
         <li class="nav-item">
           <form method="post" action="{% url 'logout' %}">
               {% csrf_token %}
-              <button type="submit" class="nav-link btn btn-link"
-                      style="display:inline; padding:0; border:none;">
+              <button type="submit" class="nav-link btn btn-link" style="display:inline; padding:0; border:none;">
                   Logout
               </button>
           </form>
@@ -65,8 +73,7 @@
 </div>
 
 <div class="container mt-4">
-    {% block content %}
-    {% endblock %}
+    {% block content %}{% endblock %}
 </div>
 
 <footer class="bg-dark text-light text-center py-3 mt-5">

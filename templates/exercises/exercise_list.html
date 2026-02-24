@@ -1,25 +1,76 @@
 {% extends "base.html" %}
-
 {% block title %}Exercises{% endblock %}
 
 {% block content %}
-<h2>Exercises for "{{ plan.name }}"</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Exercises for "{{ plan.name }}"</h1>
+    <a href="{% url 'exercise_create' plan_id=plan.id %}" class="btn btn-success">Add New Exercise</a>
+</div>
 
-<ul class="list-group">
-  {% for exercise in exercises %}
-    <li class="list-group-item">
-      <strong>{{ exercise.name }}</strong>
-      {% if exercise.description %}
-        <p>{{ exercise.description }}</p>
-      {% endif %}
-    </li>
-  {% empty %}
-    <li class="list-group-item">No exercises yet.</li>
-  {% endfor %}
-</ul>
+<form method="get" class="mb-3">
+    <div class="input-group">
+      <label>
+        <input type="text" name="search" class="form-control" placeholder="Search exercises..." value="{{ search_query }}">
+      </label>
+      <button class="btn btn-outline-secondary" type="submit">Search</button>
+    </div>
+</form>
 
-<a class="btn btn-secondary mt-3"
-   href="{% url 'workout_plan_list' %}">
-   Back to Plans
-</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for exercise in page_obj %}
+        <tr>
+            <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+            <td>{{ exercise.name }}</td>
+            <td>
+                <a href="{% url 'exercise_update' exercise.id %}" class="btn btn-sm btn-primary">Edit</a>
+                <a href="{% url 'exercise_delete' exercise.id %}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="3">No exercises yet.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">Previous</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+            {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}">{{ num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">Next</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link">Next</span></li>
+        {% endif %}
+    </ul>
+</nav>
 {% endblock %}

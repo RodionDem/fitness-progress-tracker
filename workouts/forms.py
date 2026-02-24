@@ -1,5 +1,6 @@
 from django import forms
-from .models import WorkoutPlan, WorkoutSession
+from .models import WorkoutPlan, WorkoutSession, Exercise
+
 
 class WorkoutPlanForm(forms.ModelForm):
     class Meta:
@@ -15,4 +16,12 @@ class WorkoutSessionForm(forms.ModelForm):
         fields = ['workout_plan', 'completed']
         widgets = {
             'completed': forms.CheckboxInput(),
+        }
+
+class ExerciseForm(forms.ModelForm):
+    class Meta:
+        model = Exercise
+        fields = ['name', 'description', 'duration_minutes', 'repetitions']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 3}),
         }
