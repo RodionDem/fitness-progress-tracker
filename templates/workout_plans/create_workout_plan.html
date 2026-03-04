@@ -1,12 +1,30 @@
 {% extends "base.html" %}
 
 {% block title %}Create Workout Plan{% endblock %}
+{% block page_title %}Create Workout Plan{% endblock %}
 
 {% block content %}
-<h2>Create Workout Plan</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-success">Create</button>
-</form>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+            <!-- HEADER -->
+            <div class="card-header">
+                <h4 class="card-title mb-0">Create Workout Plan</h4>
+            </div>
+
+            <!-- FORM -->
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+
+                    <button type="submit" class="btn btn-success">Create Plan</button>
+                    <a href="{% url 'workout_plan_list' %}" class="btn btn-secondary">Back to Plans</a>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,15 +1,26 @@
 {% extends "base.html" %}
-
 {% block title %}Create Workout Session{% endblock %}
+{% block page_title %}Create Session{% endblock %}
 
 {% block content %}
-<h2>Create Workout Session</h2>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Create Session</button>
-</form>
+            <div class="card-header">
+                <h4 class="card-title mb-0">Create Workout Session</h4>
+            </div>
 
-<a href="{% url 'workout_session_list' %}" class="btn btn-secondary mt-3">Back to Sessions</a>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-success">Create Session</button>
+                    <a href="{% url 'workout_session_list' %}" class="btn btn-secondary ms-2">Back to Sessions</a>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
 {% endblock %}
