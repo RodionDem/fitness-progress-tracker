@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if object %}
+        Edit Workout Session
+    {% else %}
+        Create Workout Session
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<h2>
+    {% if object %}
+        Edit Workout Session
+    {% else %}
+        Create Workout Session
+    {% endif %}
+</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">
+        Save
+    </button>
+</form>
+
+<a href="{% url 'workout_session_list' %}" class="btn btn-secondary mt-2">
+    Back to list
+</a>
+{% endblock %}

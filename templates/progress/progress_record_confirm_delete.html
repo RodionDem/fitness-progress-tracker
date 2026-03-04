@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{{ session.workout_plan.name }} - Delete Progress{% endblock %}
+
+{% block content %}
+<h2>{{ session.workout_plan.name }} — Delete Progress Record</h2>
+<p>Are you sure you want to delete this progress record?</p>
+<ul>
+  <li>Exercise: {{ object.exercise.name }}</li>
+  <li>Repetitions: {{ object.repetitions }}</li>
+  <li>Weight Used: {{ object.weight_used }}</li>
+  <li>Duration: {{ object.duration_minutes }} minutes</li>
+  <li>Notes: {{ object.notes }}</li>
+</ul>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Delete</button>
+  <a href="{% url 'workout_session_detail' session.id %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

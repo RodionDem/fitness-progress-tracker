@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Create Workout Session{% endblock %}
+
+{% block content %}
+<h2>Create Workout Session</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="workout_plan" class="form-label">Select Workout Plan</label>
+        <select name="workout_plan" id="workout_plan" class="form-select">
+            {% for plan in workout_plans %}
+                <option value="{{ plan.id }}">{{ plan.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" name="completed" id="completed">
+        <label class="form-check-label" for="completed">
+            Completed
+        </label>
+    </div>
+
+    <button type="submit" class="btn btn-success">Create Session</button>
+    <a href="{% url 'workout_session_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

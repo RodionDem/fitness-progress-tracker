@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>{% block title %}Fitness Progress Tracker{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Black Dashboard CSS -->
+    <link href="{% static 'assets/css/black-dashboard.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/demo/demo.css' %}" rel="stylesheet" />
+
+    {% block extrastyle %}{% endblock %}
+</head>
+
+<body class="">
+<div class="wrapper">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" data-color="black">
+        <div class="sidebar-wrapper">
+            <ul class="nav">
+
+                <li class="{% if request.path == '/' %}active{% endif %}">
+                    <a href="{% url 'dashboard' %}">
+                        <i class="tim-icons icon-chart-pie-36"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+
+                <li class="{% if 'plans' in request.path %}active{% endif %}">
+                    <a href="{% url 'workout_plan_list' %}">
+                        <i class="tim-icons icon-notes"></i>
+                        <p>Workout Plans</p>
+                    </a>
+                </li>
+
+                <li class="{% if 'exercises' in request.path %}active{% endif %}">
+                    {% if first_plan %}
+                        <a href="{% url 'exercise_list' plan_id=first_plan.id %}">
+                            <i class="tim-icons icon-atom"></i>
+                            <p>Exercises</p>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'dashboard' %}">
+                            <i class="tim-icons icon-chart-pie-36"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    {% endif %}
+                </li>
+
+                <li class="{% if 'sessions' in request.path %}active{% endif %}">
+                    <a href="{% url 'workout_session_list' %}">
+                        <i class="tim-icons icon-tap-02"></i>
+                        <p>Sessions</p>
+                    </a>
+                </li>
+
+                <li class="{% if 'progress' in request.path %}active{% endif %}">
+                    <a href="{% url 'progress_record_list' %}">
+                        <i class="tim-icons icon-bell-55"></i>
+                        <p>Progress</p>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <!-- END SIDEBAR -->
+
+
+    <!-- MAIN PANEL -->
+    <div class="main-panel">
+
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent">
+            <div class="container-fluid">
+
+                <div class="navbar-wrapper">
+                    <a class="navbar-brand" href="{% url 'dashboard' %}">
+                        {% block page_title %}Dashboard{% endblock %}
+                    </a>
+                </div>
+
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navigation"
+                        aria-controls="navigation"
+                        aria-expanded="false">
+                    <span class="navbar-toggler-bar bar1"></span>
+                    <span class="navbar-toggler-bar bar2"></span>
+                    <span class="navbar-toggler-bar bar3"></span>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                    <ul class="navbar-nav">
+
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <span class="nav-link">
+                                    Hello, {{ user.username }}
+                                </span>
+                            </li>
+
+                            <li class="nav-item">
+                                <form method="post" action="{% url 'logout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit"
+                                            class="btn btn-link nav-link"
+                                            style="padding:0; border:none;">
+                                        Logout
+                                    </button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}">
+                                    Login
+                                </a>
+                            </li>
+                        {% endif %}
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+        <!-- END NAVBAR -->
+
+
+        <!-- CONTENT -->
+        <div class="content">
+            <div class="container-fluid">
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+        <!-- END CONTENT -->
+
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="text-center">
+                    &copy; {% now "Y" %} Fitness Progress Tracker
+                </div>
+            </div>
+        </footer>
+        <!-- END FOOTER -->
+
+    </div>
+</div>
+
+<!-- CORE JS -->
+<script src="{% static 'assets/js/core/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/black-dashboard.min.js' %}"></script>
+
+{% block extrajs %}{% endblock %}
+</body>
+</html>

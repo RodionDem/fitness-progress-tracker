@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Are you sure you want to delete this session?</h2>
+
+<p><strong>{{ object.date }}</strong> - {{ object.workout_plan }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+</form>
+
+<a href="{% url 'workout_session_list' %}" class="btn btn-secondary mt-2">
+    Cancel
+</a>
+{% endblock %}

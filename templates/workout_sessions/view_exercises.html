@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Exercises for Session{% endblock %}
+
+{% block content %}
+<h2>Exercises for "{{ session.workout_plan.name }}" on {{ session.date }}</h2>
+
+<ul class="list-group">
+    {% for exercise in exercises %}
+        <li class="list-group-item">
+            <strong>{{ exercise.name }}</strong>
+            {% if exercise.description %}
+                <p>{{ exercise.description }}</p>
+            {% endif %}
+            {% if exercise.duration_minutes %}
+                <span class="badge bg-info me-1">Duration: {{ exercise.duration_minutes }} min</span>
+            {% endif %}
+            {% if exercise.repetitions %}
+                <span class="badge bg-secondary">Reps: {{ exercise.repetitions }}</span>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li class="list-group-item">No exercises in this plan.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'workout_session_list' %}" class="btn btn-secondary mt-3">Back to Sessions</a>
+{% endblock %}
