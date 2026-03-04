@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}
+    {% if object %}Edit Progress Record{% else %}Add Progress Record{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3>
+            {% if object %}
+                Edit Progress Record
+            {% else %}
+                Add Progress Record
+            {% endif %}
+        </h3>
+        <p class="mb-0 text-muted">
+            Session: {{ session.workout_plan.name }} ({{ session.date }})
+        </p>
+    </div>
+
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Exercise</label>
+                {{ form.exercise }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Weight Used (kg)</label>
+                {{ form.weight_used }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Repetitions</label>
+                {{ form.repetitions }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Duration (minutes)</label>
+                {{ form.duration_minutes }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Notes</label>
+                {{ form.notes }}
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                {% if object %}Update{% else %}Save{% endif %}
+            </button>
+
+            <a href="{% url 'workout_session_detail' session.id %}"
+               class="btn btn-secondary">
+                Cancel
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -3,12 +3,24 @@
 {% block title %}Session Detail{% endblock %}
 
 {% block content %}
-<h2>Session: {{ session.workout_plan.name }}</h2>
+<div class="card mb-4">
+    <div class="card-header">
+        <h3>Session: {{ session.workout_plan.name }}</h3>
+    </div>
+    <div class="card-body">
+        <p><strong>Date:</strong> {{ session.date }}</p>
+        <p>
+            <strong>Status:</strong>
+            {{ session.completed|yesno:"Completed,Not completed" }}
+        </p>
 
-<p>Date: {{ session.date }}</p>
-<p>Status: {{ session.completed|yesno:"Completed,Not completed" }}</p>
+        <a href="{% url 'progress_record_create' session.id %}"
+           class="btn btn-success">
+            + Add Progress Record
+        </a>
+    </div>
+</div>
 
-<hr>
 
 <h4>Exercises</h4>
 <ul class="list-group mb-4">
@@ -16,23 +28,45 @@
     <li class="list-group-item">
       {{ exercise.name }}
     </li>
+  {% empty %}
+    <li class="list-group-item text-muted">
+      No exercises in this plan.
+    </li>
   {% endfor %}
 </ul>
+
 
 <h4>Progress Records</h4>
 <ul class="list-group">
   {% for record in progress_records %}
-    <li class="list-group-item">
-      {{ record.exercise.name }} —
-      {{ record.repetitions }} reps —
-      {{ record.weight_used }} kg
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <div>
+        <strong>{{ record.exercise.name }}</strong><br>
+        {{ record.repetitions }} reps —
+        {{ record.weight_used }} kg —
+        {{ record.duration_minutes }} min
+      </div>
+
+      <div>
+        <a href="{% url 'progress_record_update' record.id %}"
+           class="btn btn-sm btn-primary">
+            Edit
+        </a>
+        <a href="{% url 'progress_record_delete' record.id %}"
+           class="btn btn-sm btn-danger">
+            Delete
+        </a>
+      </div>
     </li>
   {% empty %}
-    <li class="list-group-item">No progress records yet.</li>
+    <li class="list-group-item text-muted">
+      No progress records yet.
+    </li>
   {% endfor %}
 </ul>
 
-<a href="{% url 'workout_session_list' %}" class="btn btn-secondary mt-3">
+<a href="{% url 'workout_session_list' %}"
+   class="btn btn-secondary mt-4">
   Back
 </a>
 

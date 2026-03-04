@@ -30,11 +30,7 @@
           <a class="nav-link" href="{% url 'workout_session_list' %}">Sessions</a>
         </li>
         <li class="nav-item">
-          {% if progress_page_exists %}
-            <a class="nav-link" href="{% url 'progress_list' %}">Progress</a>
-          {% else %}
-            <span class="nav-link text-muted">Progress</span>
-          {% endif %}
+          <a class="nav-link" href="{% url 'progress_record_list' %}">Progress</a>
         </li>
       </ul>
 
