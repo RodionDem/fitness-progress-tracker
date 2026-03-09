@@ -5,6 +5,12 @@ This project allows users to create personalized workout plans, log exercises, t
 
 ---
 
+## Check it out!
+
+[Fitness Progress Tracker deployed to Render](https://fitness-progress-tracker.render.com/)
+
+---
+
 ## Features
 
 - User registration and authentication
@@ -70,7 +76,7 @@ This project allows users to create personalized workout plans, log exercises, t
 ---
 
 ## Project Structure
-
+```bash
 fitness-progress-tracker/
 ├─ workouts/               # Main app
 │  ├─ models.py            # User, WorkoutPlan, Exercise, WorkoutSession, ProgressRecord
