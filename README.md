@@ -9,6 +9,11 @@ This project allows users to create personalized workout plans, log exercises, t
 
 [Fitness Progress Tracker deployed to Render](https://fitness-progress-tracker-opm9.onrender.com/)
 
+
+    login: user
+    password: user12345
+
+
 ---
 
 ## Features
