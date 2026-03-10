@@ -7,7 +7,7 @@ This project allows users to create personalized workout plans, log exercises, t
 
 ## Check it out!
 
-[Fitness Progress Tracker deployed to Render](https://fitness-progress-tracker.render.com/)
+[Fitness Progress Tracker deployed to Render](https://fitness-progress-tracker-opm9.onrender.com/)
 
 ---
 
